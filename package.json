@@ -1,0 +1,67 @@
+{
+  "name": "productservice",
+  "version": "0.0.1",
+  "description": "this service is managing the product inventory",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm-run-all clean transpile",
+    "server": "node ./dist-server/bin/",
+    "dev": "NODE_ENV=development npm-run-all build server",
+    "prod": "NODE_ENV=production npm-run-all build server",
+    "transpile": "babel ./src --out-dir dist-server",
+    "test": "jest --coverage",
+    "clean": "rimraf dist-server",
+    "start": "nodemon ./src/index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rahulcapoor/nodeservice.git"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env"
+    ]
+  },
+  "keywords": [
+    "productservice",
+    "nodeseriveexample",
+    "productcurdoperations"
+  ],
+  "author": "rahul kapoor",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rahulcapoor/nodeservice/issues"
+  },
+  "homepage": "https://github.com/rahulcapoor/nodeservice#readme",
+  "dependencies": {
+    "@babel/cli": "^7.19.3",
+    "@babel/core": "^7.19.3",
+    "@babel/preset-env": "^7.19.3",
+    "@hapi/hapi": "^20.0.0",
+    "@hapi/inert": "^6.0.1",
+    "@hapi/lab": "^22.0.5",
+    "@hapi/vision": "^6.0.0",
+    "@hapi/wreck": "^17.0.0",
+    "@types/hapi__hapi": "^18.2.6",
+    "bcrypt": "^5.0.0",
+    "boom": "^7.3.0",
+    "hapi-auth-basic": "^5.0.0",
+    "hapi-auth-bearer-token": "^6.1.1",
+    "hapi-auth-jwt": "^4.0.0",
+    "hapi-auth-jwt2": "^8.0.0",
+    "hapi-swagger": "^14.1.0",
+    "husky": "^3.0.0",
+    "joi": "^17.6.2",
+    "js2xmlparser": "^4.0.0",
+    "jsonwebtoken": "^8.1.1",
+    "lodash": "^4.17.20",
+    "mssql": "^9.0.1",
+    "nodemon": "^2.0.20",
+    "npm-run-all": "^4.1.5",
+    "rimraf": "^3.0.2"
+  },
+  "devDependencies": {
+    "babel-preset-env": "^1.7.0",
+    "babel-register": "^6.26.0"
+  }
+}
