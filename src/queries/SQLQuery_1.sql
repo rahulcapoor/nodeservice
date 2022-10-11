@@ -8,7 +8,7 @@ IF NOT EXISTS (
 )
 CREATE DATABASE DILIGENT
 GO
-
+ß
 
 USE DILIGENT
 GO
@@ -89,3 +89,6 @@ BEGIN
     FROM
         deleted d;
 END
+
+
+

@@ -36,11 +36,3 @@ if (select read_count from dbo.recent where product_name = @product_name) > 0
             insert into [dbo].[recent] (product_id, product_name, read_count) 
             values((select id from dbo.products where product_name = @product_name), @product_name, 1)
 
-select * from recent
-
-select top 1 pr.id, pr.product_name,        
-pr.product_description, pr.product_price, re.read_count      
-from dbo.products pr     
-join dbo.recent re on pr.id = re.product_id     
-where re.read_count > 0     
- order by  re.read_count desc

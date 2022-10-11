@@ -1,5 +1,5 @@
 const { executeQuery, executeTransactions } = require("./sql/db");
-const { getCurrencyRate } = require("../services/service");
+const { getCurrencyRate } = require("../services/currency-service");
 const { sql } = require("./sql/pool-manager");
 
 async function deleteEntity(product_id) {
@@ -41,14 +41,13 @@ async function fetchRecentEnities(requestedCurrencyCode, countOfRecentlyViewed) 
 
     const result = await executeQuery(query);
 
-    //const currencyRate = await getCurrencyRate(requestedCurrencyCode);
+    const currencyRate = await getCurrencyRate([requestedCurrencyCode]);
     const records = result.recordset;
-    const newRecords = [];
-    for (let index = 0; index < records.length; index++) {
-        const element = records[index];
-        const newPrice = await getCurrencyRate(element.product_price, requestedCurrencyCode);
-        newRecords = [...element, {product_price : newPrice, currency: requestedCurrencyCode}]
-    }
+    const newRecords =
+    records.map(object => ({
+            ...object, product_price: object.product_price * currencyRate,
+            currency_code: requestedCurrencyCode
+        }));
 
     return newRecords;
 }
@@ -70,8 +69,8 @@ async function getEntities(productName, currencyCode) {
         params: [{ name: 'product_name', type: sql.VarChar, value: productName }]
     }
     const result = await executeTransactions(fetchRecords, updateRecentRecords);
-    const currencyRate = await getCurrencyRate(currencyCode);
-    console.log(result);
+    const currencyRate = await getCurrencyRate([currencyCode]);
+    console.log(currencyRate);
     const newRecords =
         result['fetchRecords'].map(object => ({
             ...object, product_price: object.product_price * currencyRate,

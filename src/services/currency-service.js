@@ -1,16 +1,17 @@
 const { get } = require("./service");
 
-async function getCurrencyRate(amount, targetCurrency, sourceCurrency = "USD") {
+async function getCurrencyRate(targetCurrency, sourceCurrency = "USD") {
+    if(targetCurrency == sourceCurrency) return 1;
+    var headers = {
+        "apikey": "hr3SPSY64qBsN6203CfPX4ZOFDsnJi6K"
+    };
+    const url = 'https://api.apilayer.com/currency_data/live';
+    const params = { currencies: targetCurrency, source: sourceCurrency };
 
-    var myHeaders = new Headers();
-    myHeaders.append("apikey", "hr3SPSY64qBsN6203CfPX4ZOFDsnJi6K");
-    const url = 'https://api.apilayer.com/currency_data/convert';
-    const params = { to: targetCurrency, from: sourceCurrency, amount: amount };
-
-    const result = get(url, myHeaders, params);
-    return result;
+    const result = await get(url, headers, params);
+    const currencyRate = result.quotes[sourceCurrency+targetCurrency];
+    return currencyRate;
 }
 
-
-
 module.exports = { getCurrencyRate };
+
